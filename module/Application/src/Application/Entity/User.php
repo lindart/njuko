@@ -32,7 +32,7 @@ class User extends EntityAbstract
 
     /**
     *
-    * @ORM\OneToOne(targetEntity="Profile",fetch="LAZY" , cascade={"persist","merge","detach"})
+    * @ORM\OneToOne(targetEntity="Profile",fetch="LAZY" , cascade={"persist","merge","detach","remove"})
     *
     * @var Profile
     */
@@ -175,10 +175,45 @@ class User extends EntityAbstract
 
         $this->getProfile()->setLastName($lastname);
     }
+	
+	public function setBirthDate($birthdate)
+    {
+        if(!is_object($this->getProfile()))
+        {
+            $this->setProfile(new Profile());
+        }
+
+        $this->getProfile()->setBirthDate(new \DateTime($birthdate));
+    }
+	
+	public function setAddress($address)
+    {
+        if(!is_object($this->getProfile()))
+        {
+            $this->setProfile(new Profile());
+        }
+
+        $this->getProfile()->setAddress($address);
+    }
 
     public function getFirstName()
     {
         return $this->getProfile()->getFirstName();
+    }
+	
+	public function getLastName()
+    {
+        return $this->getProfile()->getLastName();
+    }
+	
+	public function getAddress()
+    {
+        return $this->getProfile()->getAddress();
+    }
+	
+	public function getBirthDate()
+    {
+        return $this->getProfile()->getBirthDate();
     }
 
 }

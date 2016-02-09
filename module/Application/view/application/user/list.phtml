@@ -5,7 +5,7 @@
 <br/>
 <br/>
 
-<table>
+<table class="table table-bordered table-striped sortable">
     <thead>
         <tr>
             <th>
@@ -16,6 +16,12 @@
             </th>
             <th>
                 <?=$this->translate('__user_lastname')?>
+            </th>
+            <th>
+                <?=$this->translate('__user_address')?>
+            </th>
+            <th>
+                <?=$this->translate('__user_birthdate')?>
             </th>
             <th>
                 <?=$this->translate('__user_email')?>
@@ -38,6 +44,12 @@
         </td>
         <td>
             <?=$user['profile']['lastname']?>
+        </td>
+        <td>
+            <?=$user['profile']['address']?>
+        </td>
+        <td data-dateformat="DD/MM/YYYY">
+            <?=$user['profile']['birthdate']->format('d/m/Y')?>
         </td>
         <td>
             <a href='mailto:<?=$user['email']?>'>

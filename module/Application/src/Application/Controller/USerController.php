@@ -29,13 +29,14 @@ class UserController extends AbstractActionController
     public function addAction()
     {
         /* @var $form \Application\Form\UserForm */
-        $form = $this->getServiceLocator()->get('formElementManager')->get('form.user');
+        $form = $this->getServiceLocator()->get('FormElementManager')->get('form.user');
 
         $data = $this->prg();
 
         if ($data instanceof \Zend\Http\PhpEnvironment\Response) {
             return $data;
         }
+		//var_dump($data);
 
         if ($data != false) {
             $form->setData($data);
@@ -61,8 +62,18 @@ class UserController extends AbstractActionController
     public function removeAction()
     {
         //To do : Do Remove User
+        /* @var $form \Application\Form\UserForm */
+        $form = $this->getServiceLocator()->get('formElementManager')->get('form.user');
 
-        $this->redirect()->toRoute('users');
+        $userToRemove = $this->getServiceLocator()->get('entity_manager')
+            ->getRepository('Application\Entity\User')
+            ->find($this->params()->fromRoute('user_id'));
+
+        $serviceUser = $this->getServiceLocator()->get('application.service.user');
+
+        $serviceUser->removeUser($userToRemove);
+		
+		$this->redirect()->toRoute('users');
     }
 
     public function editAction()
@@ -75,7 +86,12 @@ class UserController extends AbstractActionController
             ->find($this->params()->fromRoute('user_id'));
 
         $form->bind($userToEdit);
-        $form->get('firstname')->setValue($userToEdit->getFirstname());
+        $form->get('firstname')->setValue($userToEdit->getFirstName());
+		$form->get('lastname')->setValue($userToEdit->getLastName());
+		$form->get('birthdate')->setValue($userToEdit->getBirthDate());
+		$form->get('address')->setValue($userToEdit->getAddress());
+		$form->get('email')->setValue($userToEdit->getEmail());
+		$form->get('password')->setValue($userToEdit->getPassword());
 
         $data = $this->prg();
 
@@ -91,6 +107,9 @@ class UserController extends AbstractActionController
                 $user = $form->getData();
 
                 //Save the user
+                $serviceUser = $this->getServiceLocator()->get('application.service.user');
+
+                $serviceUser->saveUser($user);
 
                 $this->redirect()->toRoute('users');
             }

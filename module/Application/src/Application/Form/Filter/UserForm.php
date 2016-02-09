@@ -47,6 +47,16 @@ class UserForm extends InputFilter
             'required'  =>  true
         ));
 
+		$this->add(array(
+            'name'  =>  'address',
+            'required'  =>  true
+        ));
+
+		$this->add(array(
+            'name'  =>  'birthdate',
+            'required'  =>  true
+        ));
+
         $this->add(array(
             'name'  =>  'email',
             'required'  =>  true
